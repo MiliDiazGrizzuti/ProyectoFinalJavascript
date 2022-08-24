@@ -15,4 +15,23 @@
 // let nombre = "Andres"
 // let mensaje = `${saludo} ${nombre}, gracias por visitarnos ♥´;
 
-// 
+for (let i = 1; i < 10; i++){
+    let nombre = prompt ("Ingrese su nombre");
+    let sintomas = "";
+    while (sintomas.toLowerCase() !== "si" && sintomas.toLocaleLowerCase() !== "no"){
+        sintomas = prompt ("¿Tuvo tos, fiebre o dolor de garganta? Ingrese si/no");
+        if(sintomas.toLowerCase() !== "si" && sintomas.toLocaleLowerCase() !== "no"){
+            alert("Usted ingresó una opción incorrecta");
+        }
+    }
+    
+    if (sintomas.toLowerCase() === "si"){
+        let mensaje = `Paciente #${i} ${nombre} con probabilidad de COVID 19`;
+        alert(mensaje);
+    } else{
+        let mensaje = `Paciente #${i} ${nombre} sin síntomas`;
+        console.log(mensaje);
+    }
+}
+
+alert("Terminamos");
