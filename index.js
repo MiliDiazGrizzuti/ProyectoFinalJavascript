@@ -4,11 +4,8 @@ let opcionInvalida = (opcion) => opcion.toLowerCase() !== "si" && opcion.toLocal
 let edadInvalida = (numero) => isNaN(Number(numero)) || !Number.isInteger(parseFloat(numero));
 let promedio = (array) => {
     if (array && array.length){ // Validar que el array tenga items
-        let acumulados = 0;
-        for (let index = 0; index < array.length; index ++){
-            acumulados = array[index] + acumulados;
-        }
-        return acumulados / array.length;
+        let total = array.reduce ((acumulador, numero) => acumulador + numero, 0);
+        return total / array.length;
     }
     return 0;
 };
@@ -42,7 +39,6 @@ for (let i = 1; i < 5; i++){
     }
 }
 
-console.log(edades);
 let promedioEdades = promedio(edades);
 let mensaje = `El promedio de edades es de ${promedioEdades}`;
 alert(mensaje);
