@@ -1,9 +1,21 @@
-// Simulador
+// Incorporar Arrays
 
 let opcionInvalida = (opcion) => opcion.toLowerCase() !== "si" && opcion.toLocaleLowerCase() !== "no";
 let edadInvalida = (numero) => isNaN(Number(numero)) || !Number.isInteger(parseFloat(numero));
-// lo tuve que googlear :)
-let edadesAcumuladas = 0;
+let promedio = (array) => {
+    if (array && array.length){ // Validar que el array tenga items
+        let acumulados = 0;
+        for (let index = 0; index < array.length; index ++){
+            acumulados = array[index] + acumulados;
+        }
+        return acumulados / array.length;
+    }
+    return 0;
+};
+
+let edades = [];
+
+
 
 for (let i = 1; i < 5; i++){
     let nombre = prompt ("Ingrese su nombre");
@@ -13,7 +25,7 @@ for (let i = 1; i < 5; i++){
         alert("Edad errónea");
         edad = prompt ("Ingrese su edad");
     }
-    edadesAcumuladas = edadesAcumuladas + parseInt(edad);
+    edades.push (parseInt(edad));
     
     let sintomas = prompt ("¿Tuvo tos, fiebre o dolor de garganta? Ingrese si/no");
     while (opcionInvalida (sintomas)){
@@ -30,6 +42,7 @@ for (let i = 1; i < 5; i++){
     }
 }
 
-let promedio = edadesAcumuladas / 4;
-let mensaje = `El promedio de edades es de ${promedio}`;
+console.log(edades);
+let promedioEdades = promedio(edades);
+let mensaje = `El promedio de edades es de ${promedioEdades}`;
 alert(mensaje);
