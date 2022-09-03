@@ -1,18 +1,35 @@
-// Const EDAD = 15 (Esto sería una variable que no va a cambiar nunca)
+// Simulador
 
-// Todo lo que no tenga un valor real, es decir, que no sea un número va entre "" (string)
+let opcionInvalida = (opcion) => opcion.toLowerCase() !== "si" && opcion.toLocaleLowerCase() !== "no";
+let edadInvalida = (numero) => isNaN(Number(numero)) || !Number.isInteger(parseFloat(numero));
+// lo tuve que googlear :)
+let edadesAcumuladas = 0;
 
-// Camel Case = el segundo nombre de la variable va en mayúscula, ejemplo: numeroUno
+for (let i = 1; i < 5; i++){
+    let nombre = prompt ("Ingrese su nombre");
+    
+    let edad = prompt ("Ingrese su edad");
+    while (edadInvalida (edad)){
+        alert("Edad errónea");
+        edad = prompt ("Ingrese su edad");
+    }
+    edadesAcumuladas = edadesAcumuladas + parseInt(edad);
+    
+    let sintomas = prompt ("¿Tuvo tos, fiebre o dolor de garganta? Ingrese si/no");
+    while (opcionInvalida (sintomas)){
+        alert("Usted ingresó una opción incorrecta")
+        sintomas = prompt ("¿Tuvo tos, fiebre o dolor de garganta? Ingrese si/no");
+    }
+    
+    if (sintomas.toLowerCase() === "si"){
+        let mensaje = `Paciente #${i} ${nombre} de ${edad} años con probabilidad de COVID 19`;
+        alert(mensaje);
+    } else{
+        let mensaje = `Paciente #${i} ${nombre} de ${edad} años sin síntomas`;
+        console.log(mensaje);
+    }
+}
 
-// console.log() nos ayuda a mostrar en la consola que es lo que se ejecuta (con el coderunner instalado)
-
-// prompt = le solicita información al usuario
-
-// alert = muestra la información al usuario
-
-// Baltiks = gracias a esto podemos colocar la variable en el texto. Ejemplo:
-// let saludo = "Hola"
-// let nombre = "Andres"
-// let mensaje = `${saludo} ${nombre}, gracias por visitarnos ♥´;
-
-// 
+let promedio = edadesAcumuladas / 4;
+let mensaje = `El promedio de edades es de ${promedio}`;
+alert(mensaje);
