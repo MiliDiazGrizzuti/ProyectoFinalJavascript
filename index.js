@@ -1,18 +1,65 @@
-// Const EDAD = 15 (Esto sería una variable que no va a cambiar nunca)
+// PROYECTO FINAL
 
-// Todo lo que no tenga un valor real, es decir, que no sea un número va entre "" (string)
 
-// Camel Case = el segundo nombre de la variable va en mayúscula, ejemplo: numeroUno
+//CLASES
+class Persona {
+    constructor (id, nombre, edad, sintomas){
+        this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
+        this.sintomas = sintomas;
+    }
 
-// console.log() nos ayuda a mostrar en la consola que es lo que se ejecuta (con el coderunner instalado)
+    personaDeRiesgo () {
+        return this.sintomas && this.edad >= 50;
+    }
+}
 
-// prompt = le solicita información al usuario
 
-// alert = muestra la información al usuario
+//FUNCIONES
+let opcionInvalida = (opcion) => opcion.toLowerCase() !== "si" && opcion.toLocaleLowerCase() !== "no";
+let edadInvalida = (numero) => isNaN(Number(numero)) || !Number.isInteger(parseFloat(numero));
+let promedio = (array) => {
+    if (array && array.length){ // Validar que el array tenga items
+        let total = array.reduce ((acumulador, numero) => acumulador + numero, 0);
+        return total / array.length;
+    }
+    return 0;
+};
 
-// Baltiks = gracias a esto podemos colocar la variable en el texto. Ejemplo:
-// let saludo = "Hola"
-// let nombre = "Andres"
-// let mensaje = `${saludo} ${nombre}, gracias por visitarnos ♥´;
 
-// 
+//VARIABLES GLOBALES
+let personas = [];
+
+
+//INGRESO DE DATOS
+for (let i = 1; i < 5; i++){
+    let nombre = prompt ("Ingrese su nombre");
+    
+    let edad = prompt ("Ingrese su edad");
+    while (edadInvalida (edad)){
+        alert("Edad errónea");
+        edad = prompt ("Ingrese su edad");
+    }
+    
+    let sintomas = prompt ("¿Tuvo tos, fiebre o dolor de garganta? Ingrese si/no");
+    while (opcionInvalida (sintomas)){
+        alert("Usted ingresó una opción incorrecta")
+        sintomas = prompt ("¿Tuvo tos, fiebre o dolor de garganta? Ingrese si/no");
+    }
+
+    let conSintomas = sintomas.toLowerCase() === "si";
+    let persona = new Persona (i, nombre, parseInt(edad), conSintomas);
+    personas.push(persona);
+}
+
+// Calcular promedio de edades
+let edades = personas.map (item => item.edad);
+let promedioEdades = promedio(edades);
+let mensaje = `El promedio de edades es de ${promedioEdades}`;
+alert(mensaje);
+
+// Filtrar pacientes de riesgo
+let pacientesDeRiesgo = personas.filter (item => item.personaDeRiesgo());
+let nombresPacientesDeRiesgo = pacientesDeRiesgo.map(item => item.nombre).join(", ");
+alert(`${nombresPacientesDeRiesgo} son pacientes de riesgo`);
