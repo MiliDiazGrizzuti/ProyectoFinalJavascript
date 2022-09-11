@@ -7,9 +7,27 @@
     <title>Turnos Web</title>
 </head>
 <body>
-    
 
-    
+    <div id="formulario">
+        <div>
+            <label>Ingrese nombre: </label>
+            <input id="nombre" type="text"></input>
+        </div>
+        <div>
+            <label>Ingrese edad: </label>
+            <input id="edad" type="number"></input>
+        </div>
+        <div>
+            <label>Tiene sintomas? </label>
+            <input id="sintomas" type="text"></input>
+        </div>
+        <input id="btnEnviar" type="button" value="Enviar"></input>
+    </div>
+
+    <p style="color:red" id="pPersonasAgregadas"></p>
+    <input id="btnPromedio" type="button" value="Calcular Promedio"></input>
+
+    <p id="pPersonasConRiesgo"></p>
 <script src="./index.js"></script>
 
 </body>
