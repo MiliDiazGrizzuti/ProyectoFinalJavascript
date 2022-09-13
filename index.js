@@ -10,8 +10,8 @@ class Persona {
         this.sintomas = sintomas;
     }
 
-    personaDeRiesgo () {
-        return this.sintomas && this.edad >= 50;
+    cumpleCondiciones (edadDesde, edadHasta, conSintomas) {
+        return this.edad >= edadDesde && this.edad <= edadHasta && this.sintomas == conSintomas;
     }
 }
 
@@ -60,13 +60,10 @@ let procesarDatos = () => {
     personas.push(persona);
     alert("Persona agregada");
     
-    let pPersonasAgregadas = document.getElementById("pPersonasAgregadas");
-    pPersonasAgregadas.innerHTML = `<p>Cantidad de personas agregadas: ${index}</p>`;
-    
-    if(persona.personaDeRiesgo()){
-        let pPersonasConRiesgo = document.getElementById("pPersonasConRiesgo");
-        pPersonasAgregadas.append(`${persona.nombre} tiene riesgo de covid`)
-    }
+    // Actualizar información
+    let pInformacion = document.getElementById("pInformacion");
+    let promedio = calcularPromedio();
+    pInformacion.innerHTML = `<p>Cantidad de personas agregadas: ${index}. Edad promedio: ${promedio}</p>`;
     
     limpiarDatos();
 };
@@ -74,20 +71,43 @@ let procesarDatos = () => {
 let calcularPromedio = () => {
     if(personas.length){
         let edades = personas.map (item => item.edad);
-        let promedioEdades = promedio(edades);
-        let mensaje = `El promedio de edades es de ${promedioEdades}`;
-        alert(mensaje);    
+        return promedio(edades);    
     }
-    else {
-        alert("Ingrese personas para calcular promedio de edades");
+    return 0;
+};
+
+let filtrar = () => {
+    let filtroMayoresAinput = document.getElementById("filtroMayoresA");
+    let filtroMenoresAinput = document.getElementById("filtroMenoresA");
+    let filtroSintomas = document.getElementById("filtroSintomas");
+    let mayoresA = filtroMayoresAinput.value;
+    let menoresA = filtroMenoresAinput.value;
+    let sintomas = filtroSintomas.value;
+
+    if(edadInvalida(mayoresA) || edadInvalida(menoresA) || opcionInvalida(sintomas)){
+        alert("Filtros inválidos");
+        return;
     }
+
+    let edadMayoresA = parseInt(mayoresA);
+    let edadMenoresA = parseInt(menoresA);
+    let conSintomas = sintomas.toLowerCase() === "si";
+
+    let pPersonasFiltradas = document.getElementById("pPersonasFiltradas");
+    let personasFiltradas = personas.filter(p => p.cumpleCondiciones(edadMayoresA, edadMenoresA, conSintomas));
+    let innerHTML = 'Sin resultados';
+    if(personasFiltradas.length){
+        innerHTML = "Resultados:<br>" +
+            personasFiltradas.map(p => p.nombre).join('<br>');
+    }
+    pPersonasFiltradas.innerHTML = innerHTML;
 };
 
 //EVENTOS
-let btnEnviar = document.getElementById("btnEnviar");
-btnEnviar.addEventListener("click", procesarDatos);
-let btnPromedio = document.getElementById("btnPromedio");
-btnPromedio.addEventListener("click", calcularPromedio);
+let btnAgregar = document.getElementById("btnAgregar");
+btnAgregar.addEventListener("click", procesarDatos);
+let btnFiltrar = document.getElementById("btnFiltrar");
+btnFiltrar.addEventListener("click", filtrar);
 
 //INGRESO DE DATOS
 /*for (let i = 1; i < 5; i++){

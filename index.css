@@ -1,0 +1,24 @@
+body {
+    background-color: rgb(163, 159, 159);
+    font-family: 'Lato', sans-serif;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    width: 150px;
+}
+
+.box {
+    width: 100px;
+    height: 30px;
+}

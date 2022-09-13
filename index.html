@@ -4,30 +4,63 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+    </style>
+
     <title>Turnos Web</title>
 </head>
 <body>
 
-    <div id="formulario">
-        <div>
-            <label>Ingrese nombre: </label>
-            <input id="nombre" type="text"></input>
+<h1>¡Bienvenido a nuestro centro!</h1>
+
+    <div class="container" id="formulario">
+        <div class="row">
+            <h3>Ingrese datos de una persona:</h3>
         </div>
-        <div>
-            <label>Ingrese edad: </label>
-            <input id="edad" type="number"></input>
+        <div class="row">
+            <p class="label">Ingrese nombre: </p>
+            <input id="nombre" class="box" type="text"></input>
         </div>
-        <div>
-            <label>Tiene sintomas? </label>
-            <input id="sintomas" type="text"></input>
+        <div class="row">
+            <p class="label">Ingrese edad: </p>
+            <input id="edad" class="box" type="number"></input>
         </div>
-        <input id="btnEnviar" type="button" value="Enviar"></input>
+        <div class="row">
+            <p class="label">Tiene sintomas? </p>
+            <input id="sintomas" class="box" type="text"></input>
+        </div>
+        <div class="row">
+            <input id="btnAgregar" class="box" type="button" value="Agregar"></input>
+        </div>
     </div>
 
-    <p style="color:red" id="pPersonasAgregadas"></p>
-    <input id="btnPromedio" type="button" value="Calcular Promedio"></input>
+    <p id="pInformacion"></p>
 
-    <p id="pPersonasConRiesgo"></p>
+    <div id="divFiltros" class="container">
+        <div class="row">
+            <h3>Filtro de personas</h3>
+        </div>
+        <div class="row">
+            <p class="label">Mayores a:</p>
+            <input id="filtroMayoresA" class="box" type="number"></input>
+        </div>
+        <div class="row">
+            <p class="label">Menores a:</p>
+            <input id="filtroMenoresA" class="box" type="number"></input>
+        </div>
+        <div class="row">
+            <p class="label">Tiene síntomas? </p>
+            <input id="filtroSintomas" class="box" type="text"></input>
+        </div>
+        <div class="row">
+            <input id="btnFiltrar" class="box" type="button" value="Filtrar"></input>
+        </div>
+        <p id="pPersonasFiltradas"></p>
+    </div>
+
 <script src="./index.js"></script>
 
 </body>
