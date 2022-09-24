@@ -15,9 +15,6 @@ class Persona {
     }
 }
 
-//VARIABLES GLOBALES
-let personas = [];
-
 //FUNCIONES
 let opcionInvalida = (opcion) => opcion.toLowerCase() !== "si" && opcion.toLocaleLowerCase() !== "no";
 let edadInvalida = (numero) => isNaN(Number(numero)) || !Number.isInteger(parseFloat(numero));
@@ -48,17 +45,17 @@ let procesarDatos = () => {
 
     // Validar los datos ingresados
     if(edadInvalida(edadValue) || opcionInvalida(sintomas)) {
-        alert("Datos erróneos");
+        mostrarMensaje("Datos erróneos", false);
         return;
     }
 
     // Agregarlo al array de Personas
     let edad = parseInt(edadValue);
     let conSintomas = sintomas.toLowerCase() === "si";
-    let index = personas.length + 1;
+    let index = obtenerSiguienteIndice();
     let persona = new Persona (index, nombre, edad, conSintomas);
-    personas.push(persona);
-    alert("Persona agregada");
+    guardarEnLocalStorage(persona);
+    mostrarMensaje("Persona agregada", true);
     
     // Actualizar información
     let pInformacion = document.getElementById("pInformacion");
@@ -69,6 +66,7 @@ let procesarDatos = () => {
 };
 
 let calcularPromedio = () => {
+    let personas = obtenerPersonasDeLocalStorage();
     if(personas.length){
         let edades = personas.map (item => item.edad);
         return promedio(edades);    
@@ -85,7 +83,7 @@ let filtrar = () => {
     let sintomas = filtroSintomas.value;
 
     if(edadInvalida(mayoresA) || edadInvalida(menoresA) || opcionInvalida(sintomas)){
-        alert("Filtros inválidos");
+        mostrarMensaje("Filtros inválidos", false);
         return;
     }
 
@@ -94,6 +92,7 @@ let filtrar = () => {
     let conSintomas = sintomas.toLowerCase() === "si";
 
     let pPersonasFiltradas = document.getElementById("pPersonasFiltradas");
+    let personas = obtenerPersonasDeLocalStorage();
     let personasFiltradas = personas.filter(p => p.cumpleCondiciones(edadMayoresA, edadMenoresA, conSintomas));
     let innerHTML = 'Sin resultados';
     if(personasFiltradas.length){
@@ -109,35 +108,33 @@ btnAgregar.addEventListener("click", procesarDatos);
 let btnFiltrar = document.getElementById("btnFiltrar");
 btnFiltrar.addEventListener("click", filtrar);
 
-//INGRESO DE DATOS
-/*for (let i = 1; i < 5; i++){
-    let nombre = prompt ("Ingrese su nombre");
-    
-    let edad = prompt ("Ingrese su edad");
-    while (edadInvalida (edad)){
-        alert("Edad errónea");
-        edad = prompt ("Ingrese su edad");
-    }
-    
-    let sintomas = prompt ("¿Tuvo tos, fiebre o dolor de garganta? Ingrese si/no");
-    while (opcionInvalida (sintomas)){
-        alert("Usted ingresó una opción incorrecta")
-        sintomas = prompt ("¿Tuvo tos, fiebre o dolor de garganta? Ingrese si/no");
-    }
-
-    let conSintomas = sintomas.toLowerCase() === "si";
-    let persona = new Persona (i, nombre, parseInt(edad), conSintomas);
-    personas.push(persona);
+let obtenerPersonasDeLocalStorage = () => {
+    let personasItem = localStorage.getItem('personas');
+    let personas = personasItem ? JSON.parse(personasItem) : [];
+    return personas.map(item => new Persona(item.id, item.nombre, item.edad, item.sintomas));
 }
 
-// Calcular promedio de edades
-let edades = personas.map (item => item.edad);
-let promedioEdades = promedio(edades);
-let mensaje = `El promedio de edades es de ${promedioEdades}`;
-alert(mensaje);
+let guardarEnLocalStorage = (persona) => {
+    let personas = obtenerPersonasDeLocalStorage();
+    personas.push(persona);
+    localStorage.setItem('personas', JSON.stringify(personas));
+}
 
-// Filtrar pacientes de riesgo
-let pacientesDeRiesgo = personas.filter (item => item.personaDeRiesgo());
-let nombresPacientesDeRiesgo = pacientesDeRiesgo.map(item => item.nombre).join(", ");
-alert(`${nombresPacientesDeRiesgo} son pacientes de riesgo`);
-*/
+let obtenerSiguienteIndice = () => {
+    let personas = obtenerPersonasDeLocalStorage();
+    return personas.length + 1; 
+}
+
+let mostrarMensaje = (mensaje, exito) => {
+    let linearGradient = exito ? '#75b133, #236417' : '#fa6e6e, #612e30';
+    Toastify({
+        text: mensaje,
+        duration: 4000,
+        gravity: "top", // `top` or `bottom`
+        close: true,
+        stopOnFocus: true,
+        style: {
+          background: `linear-gradient(to right, ${linearGradient})`,
+        }
+      }).showToast();
+}
